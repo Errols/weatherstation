@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0018)http://10.0.0.134/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <title>ZS1-ACI Weather Station</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./ZS1-ACI Weather Station_files/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="icon" href="data:,">
+  <style>
+    html {font-family: Arial; display: inline-block; text-align: center;}
+    p {  font-size: 1.2rem;}
+    body {  margin: 0;}
+    .topnav { overflow: hidden; background-color: #0F7173; color: white; font-size: 1.4rem; }
+    .content { padding: 20px; }
+    .card { background-color: white; box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5); }
+    .cards { max-width: 700px; margin: 0 auto; display: grid; grid-gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .reading { font-size: 2rem; }
+    .card.temperature { color: #272932; }
+    .card.altitude { color: #D8A47F; }
+    .card.pressure { color: #F05D5E; }
+  </style>
+</head>
+<body>
+  <div class="topnav">
+    <h3>ZS1-ACI WEATHER STATION</h3>
+  </div>
+  <div class="content">
+    <div class="cards">
+      <div class="card pressure">
+        <h4><i class="fas fa-angle-double-down"></i> PRESSURE</h4><p><span class="reading"><span id="pres">1009.30</span> hPa</span></p>
+      </div>
+      <div class="card altitude">
+        <h4><i class="fas fa-long-arrow-alt-up"></i> ALTITUDE</h4><p><span class="reading"><span id="alt">32.97</span> m</span></p>
+      </div>
+      <div class="card temperature">
+        <h4><i class="fas fa-thermometer-half"></i> TEMPERATURE</h4><p><span class="reading"><span id="temp">20.27</span> °C</span></p>
+      </div>
+      <div class="card wind speed">
+        <h4><i class="fa-solid fa-wind"></i> WIND SPEED</h4><p><span class="reading"><span id="temp">34</span> KM/H</span></p>
+      </div>
+    </div>
+  </div>
+<script>
+if (!!window.EventSource) {
+ var source = new EventSource('/events');
+ 
+ source.addEventListener('open', function(e) {
+  console.log("Events Connected");
+ }, false);
+ source.addEventListener('error', function(e) {
+  if (e.target.readyState != EventSource.OPEN) {
+    console.log("Events Disconnected");
+  }
+ }, false);
+ 
+ source.addEventListener('message', function(e) {
+  console.log("message", e.data);
+ }, false);
+ 
+ source.addEventListener('temperature', function(e) {
+  console.log("temperature", e.data);
+  document.getElementById("temp").innerHTML = e.data;
+ }, false);
+ 
+ source.addEventListener('pressure', function(e) {
+  console.log("pressure", e.data);
+  document.getElementById("pres").innerHTML = e.data;
+ }, false);
+ 
+ source.addEventListener('altitude', function(e) {
+  console.log("altitude", e.data);
+  document.getElementById("alt").innerHTML = e.data;
+ }, false);
+}
+</script>
+
+</body></html>
